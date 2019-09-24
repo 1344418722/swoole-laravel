@@ -17,6 +17,24 @@ class Login extends Model{
             return ['1',$db];
         }
     }
+    static function reset($name,$password){
+        $id=DB::table('user')
+            ->where('name',$name)
+            ->value('id');
+        if(empty($id)){
+            return 0;
+        }else{
+            try{
+                DB::table('user')
+                    ->where('id',$id)
+                    ->update(['password'=>$password]);
+            }catch (Exception $e){
+                return 2;
 
+            }
+            return 1;
+        }
+
+    }
 
 }

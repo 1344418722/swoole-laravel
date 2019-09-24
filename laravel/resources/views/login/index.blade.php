@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="css/spop.min.css" />
 
     <script src="js/jquery.min.js"></script>
-    <script src="js/snow.js"></script>
     <script src="js/jquery.pure.tooltips.js"></script>
     <script src="js/spop.min.js"></script>
     <script>
@@ -361,6 +360,7 @@
                 flag = false,
                 validatecode = null;
             //判断用户名密码是否为空
+
             if(username == ""){
                 $.pt({
                     target: $("#forget-username"),
@@ -370,6 +370,7 @@
                     height: 'auto',
                     content:"用户名不能为空"
                 });
+
                 flag = true;
             }
             if(password == ""){
@@ -400,44 +401,109 @@
             //调后台方法
 
             //检查注册码是否正确
-            if(code != '11111111'){
-                $.pt({
-                    target: $("#forget-code"),
-                    position: 'r',
-                    align: 't',
-                    width: 'auto',
-                    height: 'auto',
-                    content:"注册码不正确"
-                });
-                flag = true;
-            }
+
+
+            $.get('/verify',function (data) {
+                if(code != data){
+                    $.pt({
+                        target: $("#forget-code"),
+                        position: 'r',
+                        align: 't',
+                        width: 'auto',
+                        height: 'auto',
+                        content:"注册码不正确"
+                    });
+                    flag = true;
+                }else{
+
+                    if(flag){
+                        return false;
+                    }else{//重置密码
+                        console.log(username);
+                        console.log(password);
+                        $.post('/login/reset',{'name':username,'password':password},function (data) {
+                                if(data==0){
+                                    spop({
+                                        template: '<h4 class="spop-title">账户不存在</h4>即将于3秒后关闭',
+                                        position: 'top-center',
+                                        style: 'error',
+                                        autoclose: 3000,
+                                        onOpen : function(){
+                                            var second = 2;
+                                            var showPop = setInterval(function(){
+                                                if(second == 0){
+                                                    clearInterval(showPop);
+                                                }
+                                                $('.spop-body').html('<h4 class="spop-title">账户不存在</h4>即将于'+second+'秒后关闭');
+                                                second--;
+                                            },1000);
+                                        },
+                                        onClose : function(){
+                                        }
+                                    });
+                                }else if(data==1){
+
+                                    spop({
+                                        template: '<h4 class="spop-title">重置密码成功</h4>即将于3秒后返回登录',
+                                        position: 'top-center',
+                                        style: 'success',
+                                        autoclose: 3000,
+                                        onOpen : function(){
+                                            var second = 2;
+                                            var showPop = setInterval(function(){
+                                                if(second == 0){
+                                                    clearInterval(showPop);
+                                                }
+                                                $('.spop-body').html('<h4 class="spop-title">重置密码成功</h4>即将于'+second+'秒后返回登录');
+                                                second--;
+                                            },1000);
+                                        },
+                                        onClose : function(){
+                                            goto_login(username,password);
+                                        }
+                                    });
 
 
 
-            if(flag){
-                return false;
-            }else{//重置密码
-                spop({
-                    template: '<h4 class="spop-title">重置密码成功</h4>即将于3秒后返回登录',
-                    position: 'top-center',
-                    style: 'success',
-                    autoclose: 3000,
-                    onOpen : function(){
-                        var second = 2;
-                        var showPop = setInterval(function(){
-                            if(second == 0){
-                                clearInterval(showPop);
-                            }
-                            $('.spop-body').html('<h4 class="spop-title">重置密码成功</h4>即将于'+second+'秒后返回登录');
-                            second--;
-                        },1000);
-                    },
-                    onClose : function(){
-                        goto_login();
+
+
+
+                                }else if(data==2){
+                                    spop({
+                                        template: '<h4 class="spop-title">系统错误</h4>即将于3秒后关闭',
+                                        position: 'top-center',
+                                        style: 'error',
+                                        autoclose: 3000,
+                                        onOpen : function(){
+                                            var second = 2;
+                                            var showPop = setInterval(function(){
+                                                if(second == 0){
+                                                    clearInterval(showPop);
+                                                }
+                                                $('.spop-body').html('<h4 class="spop-title">系统错误</h4>即将于'+second+'秒后关闭');
+                                                second--;
+                                            },1000);
+                                        },
+                                        onClose : function(){
+                                        }
+                                    });
+                                }
+
+
+
+                        });
+
+                        return false;
                     }
-                });
-                return false;
-            }
+
+                }
+
+            });
+
+
+
+
+
         }
 
 

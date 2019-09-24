@@ -12,19 +12,14 @@ class IndexController extends  Controller
 
     public function __construct(Request $request)
     {
-        $session=Session::get('user_id');
-        $url=$request->url();
-        if($url=='/login'){
-            echo 123;die();
-        }else{
-            if(!empty($session)){
-                return back();
-            }
-        }
 
     }
     function index(){
         //登录页视图
+        $session=session('user_id');
+        if(!empty($session)){
+            return redirect('/');
+        }
         return view('login.index');
     }
     function login(Request $request){
@@ -35,7 +30,7 @@ class IndexController extends  Controller
             if($db==0){
                 return 0;
             }else{
-                session('user_id',$db[0]);
+                session(['user_id'=>$db[0]]);
                 return 1;
             }
         }catch (Exception $e){
@@ -72,6 +67,17 @@ class IndexController extends  Controller
         }
 
 
+
+    }
+    //找会密码
+    function reset(Request $request){
+        $data=$request->post();
+        try{
+            extract($data);
+            return Login::reset($name,$password);
+        }catch (Exception $e){
+            return 2;
+        }
 
     }
 }
