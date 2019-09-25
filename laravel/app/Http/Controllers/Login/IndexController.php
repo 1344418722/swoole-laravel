@@ -30,7 +30,7 @@ class IndexController extends  Controller
             if($db==0){
                 return 0;
             }else{
-                session(['user_id'=>$db[0]]);
+                session(['user_id'=>$db[1]]);
                 return 1;
             }
         }catch (Exception $e){

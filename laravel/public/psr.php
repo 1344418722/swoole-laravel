@@ -1,20 +1,25 @@
 <?php
-$server = new swoole_websocket_server("0.0.0.0",9200);
-
-$server->on('open',function(swoole_websocket_server $server,$request){
-    echo "server: handshake success with fd{$request->fd}\n";
+//服务器代码
+//创建websocket 服务器
+$ws = new swoole_websocket_server("0.0.0.0",9501);
+$ws->set(['daemonize'=>true]);
+// open
+$ws->on('open',function($ws,$request){
+    echo "新用户 $request->fd 加入。\n";
+    $GLOBALS['fd'][$request->fd]['id'] = $request->fd;//设置用户id
 });
+//message
+$ws->on('message',function($ws,$request){
+    $msg = $request->data;
+    foreach($GLOBALS['fd'] as $i){
+        $ws->push($i['id'],$msg);
 
-$server->on('message',function(swoole_websocket_server $server,$frame){
-    echo "receive from {$frame->fd}:{$frame->data}";
-    echo "opcode:{$frame->opcode}";
-    echo "fin: {$frame->finish}\n";
-    $server->push($frame->fd,"正正可真帅");
+    }
+//    }
 });
-
-$server->on('close',function($ser,$fd){
-    echo "client {$fd} closed\n";
+//close
+$ws->on('close',function($ws,$request){
+    echo "客户端-{$request} 断开连接\n";
+    unset($GLOBALS['fd'][$request]);//清楚连接仓库
 });
-
-$server->start();
-?>
+$ws->start();

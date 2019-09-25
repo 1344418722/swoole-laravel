@@ -22,10 +22,17 @@ Route::any('/session_user_name',function (){
         return $sess_user_id;
     }
 });
+//用户发送信息
+Route::post('/release','Index\IndexController@release');
+//个人中心
+Route::post('/user_data','Index\IndexController@user_data');
+//修改资料
+Route::post('/up_user','Index\IndexController@up_user');
+
+//留言板数据
+Route::any('/data','Index\IndexController@data');
 //发布
-Route::any('/sw_websocket_redis','Index\IndexController@sw_websocket_redis');
-//发布
-Route::any('/sw_redis','Index\IndexController@sw_redis');
+
 //消息推送
 //登录
 Route::any('/login', 'Login\IndexController@index');//登录页面

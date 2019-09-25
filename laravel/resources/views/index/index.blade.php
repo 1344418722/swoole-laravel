@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>正正的窝</title>
     <meta name="keywords" content="" />
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    
     <meta name="description" content="1433223" />
     <link rel="stylesheet" href="css/spop.min.css" />
     <link rel="stylesheet" href="css/tooltips.css" />
@@ -13,11 +13,13 @@
     <style type="text/css">
         *{margin:0px; padding:0px;}
         body{
+            width: 95vw;
+            height: 95vh;
             background:url("images/snow.jpg") repeat-y ;
-            background-size:95rem 85rem;
+            background-size:95rem 95rem;
 
         }
-        #qq{width:37rem;/*宽*/height:23%;/*高*/background:#fff;/*背景颜色*/
+        #qq{width:37rem;/*宽*/height:auto;/*高*/background:#fff;/*背景颜色*/
             margin:50px auto 30px; border-radius:5px;/*Html5 圆角*/}
         #qq p{font-size:12px; color:#666; font-family:"微软雅黑";
             line-height:45px; text-indent:20px;}
@@ -25,7 +27,8 @@
             border:1px solid #ddd;
             text-overflow:ellipsis;
             /*粗细 风格 颜色*/}
-        #qq .But{width:560px;height:35px;margin:15px auto 0px; position:relative;/*相对，参考对象*/}
+
+        #qq .But{width:90%;height:35px;margin:15px auto 0px; position:relative;/*相对，参考对象*/}
         #qq .But img.bq{float:left;/*左浮动*/}
         #qq .But span.submit{width:80px;height:30px; background:#ff4200;					display:block; float:right;/*右浮动*/								line-height:30px;border-radius:5px;								cursor:pointer;/*手指*/color:#fff;font-size:12px;					text-align:center;font-family:"微软雅黑";}
 
@@ -70,6 +73,7 @@
             float: right;
             border-left: 1px solid #1d2e40;
             border-right:1px solid #1d2e40;
+            cursor:pointer;
         }
         .one12{
             width:20%;
@@ -80,6 +84,68 @@
             float: right;
             border-left: 1px solid #1d2e40;
             border-right:1px solid #1d2e40;
+            cursor:pointer;
+        }
+        .two{
+            width: 300px;
+            height: 250px;
+            position: fixed;
+            background-color: #ede9e9;
+            border-radius: 10px;
+            opacity: 0.9;
+            left: 40px;
+            display: none;
+        }
+        td{
+            border: 1px solid grey;
+            width: 150px;
+            height: 30px;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+        .but{
+            width: 80px;
+            height: 30px;
+            background: #ff4200;
+            display: block;
+            border: 0px;
+            line-height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            font-family: "微软雅黑";
+            margin-top: -21px;
+        }
+        .but1{
+            width: 80px;
+            height: 30px;
+            background: #ff4200;
+            display: block;
+            border: 0px;
+            line-height: 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #fff;
+            font-size: 12px;
+            text-align: center;
+            font-family: "微软雅黑";
+
+        }
+
+        td input{
+            width: 200px;
+            height: 32px;
+            border-radius: 3px;
+            border: 0;
+        }
+        .two img{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 1px solid;
+
         }
     </style>
 </head>
@@ -88,6 +154,35 @@
     <div class="one1">
         <div class="one11" onclick="javascript:window.location.href='/login'">登录</div>
     </div>
+</div>
+<div class="two">
+    <table>
+        <caption align="top">
+            <img src="images/tx.jpg" onerror="this.src='images/tx.jpg'" />
+        </caption>
+        <tr>
+            <th>&nbsp;&nbsp;账号:</th>
+            <td class="td_name"></td>
+        </tr>
+        <tr>
+            <th>&nbsp;&nbsp;昵称:</th>
+            <td><input type="text" maxlength="10" min="1" name="username"></td>
+        </tr>
+        <tr>
+            <th>&nbsp;&nbsp;密码:</th>
+            <td><input type="password" maxlength="10" min="1" name="password"></td>
+        </tr>
+        <tr>
+            <th>
+               &nbsp;&nbsp; <button class="but" onclick="two_up_user()">修改</button>
+            </th>
+            <td style="border: 0px">
+                <button class="but1" style="background: #BBBBBB" onclick="two_hide()">关闭</button>
+            </td>
+        </tr>
+    </table>
+
+
 </div>
 <div id="qq">
     <p>有什么新鲜事想告诉大家?</p>
@@ -105,29 +200,154 @@
 <!--qq end-->
 <div id="time1"></div>
 <!--msgCon begin-->
-<div class="msgCon">
+<div class="msgCon" id="data" >
 
-
-
+    <div class="msgBox" v-for="item in item">
+        <dl>
+            <dt>
+                <img src="${item.img}" width="50" onerror="this.src='images/tx.jpg'" height="50">
+            </dt>
+            <dd>${item.username}
+                <span style="font-size: 90%;color:#EEDFCC;float:right;">
+                   ${item.time | formatDate}
+                </span>
+            </dd>
+        </dl>
+        <div class="msgTxt">
+            ${item.text}
+        </div>
+    </div>
 
 </div>
-
 <script src="js/jquery.min.js"></script>
-<script src="js/jquery.min.js"></script>
-
 <script src="js/jquery.pure.tooltips.js"></script>
 <script src="js/spop.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script>
+
+    var example1 = new Vue({
+        delimiters: ['${', '}'],
+        el: '#data',
+        data: {
+            item:[]
+        },
+        mounted: function () {
+            var that = this;
+            $.get('/data',{},function (data) {
+                eval("var data="+data);
+                that.item=data;
+            })
+        },filters: {
+            formatDate: function (value) {
+
+                value = Number(value);
+                console.log(value);
+                let date = new Date(value);
+                let y = date.getFullYear();
+                let MM = date.getMonth() + 1;
+                MM = MM < 10 ? ('0' + MM) : MM;
+                let d = date.getDate();
+                d = d < 10 ? ('0' + d) : d;
+                let h = date.getHours();
+                h = h < 10 ? ('0' + h) : h;
+                let m = date.getMinutes();
+                m = m < 10 ? ('0' + m) : m;
+                let s = date.getSeconds();
+                s = s < 10 ? ('0' + s) : s;
+                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
+            }
+        }
+
+
+    })
+
+
+</script>
 <script type="text/javascript">
     $.ajaxSetup({
         headers: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' }
     });
     $.get('session_user_name',{},function (data) {
         if(data>0){
-            $('.one1').html("<div class=\"one12\">个人中心</div>");
+            $('.one1').html("<div class=\"one12\" onclick='one12()'>个人中心</div>");
         }
 
     });
+    function two_up_user() {
+        username=$('[name="username"]').val();
+        password=$('[name="password"]').val();
+        if(username.length>15){
+            $.pt({
+                target: $('[name="username"]'),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                arrow:true,
+                height: 'auto',
+                content:"输入长度不能超过15个字符的亲亲"
+            });
+        }else if(password.length>15){
+            $.pt({
+                target: $('[name="password"]'),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                arrow:true,
+                height: 'auto',
+                content:"输入长度不能超过15个字符的亲亲"
+            });
+        }else{
+            $.post('/up_user',{'username':username,'password':password},function (data) {
 
+            })
+
+
+        }
+
+
+    }
+
+    //个人中心
+    function one12(){
+        $.post('/user_data',{'data':1},function (data) {
+            console.log(1);
+            if(data==0){
+                spop({
+                    template: '<h4 class="spop-title">系统错误</h4>即将于3秒后关闭',
+                    position: 'top-center',
+                    style: 'error',
+                    autoclose: 3000,
+                    onOpen : function(){
+                        var second = 2;
+                        var showPop = setInterval(function(){
+                            if(second == 0){
+                                clearInterval(showPop);
+                            }
+                            $('.spop-body').html('<h4 class="spop-title">失败</h4>即将于'+second+'秒后关闭');
+                            second--;
+                        },1000);
+                    },
+                    onClose : function(){
+                    return false;
+                    }
+                });
+            }else{
+                eval("var data="+data);
+                $('.td_name').text(data.name);
+                $("[name='username']").val(data.username);
+                $("[name='password']").val(data.password);
+                $('.two img').prop('src',data.img);
+                $('.two').show(1000);
+            }
+
+        });
+
+
+    }
+    // 关闭个人中心
+    function two_hide(){
+        $('.two').hide(1000)
+    }
     //点击小图片，显示表情
     $(".bq").click(function(e){
         $(".face").slideDown();//慢慢向下展开
@@ -143,16 +363,31 @@
         var simg=$(this).find("img").clone();
         $(".message").append(simg);
     });
-
+//websocket连接
+    var wsServer = 'ws://123.207.245.120:9501';
+    var websocket = new WebSocket(wsServer);
+    websocket.onopen = function(evt){
+        console.log('已经连接了')
+    };
+    websocket.onmessage = function(evt){
+        // console.log('从服务器获取到的数据:'+ evt.data);
+        $(".msgCon").prepend(evt.data);
+        };
+    websocket.onclose = function(evt){
+        console.log("服务器拒绝");
+    };
+    websocket.onerror = function(evt,e){
+        console.log('错误:'+evt.data);
+    };
     //点击发表按扭，发表内容
     var img='images/tx.jpg';
-    var  name="正正";
+
     $("span.submit").click(function(){
         $.get('session_user_name',{},function (data) {
             if(data>0){
-                $('.one1').html("<div class=\"one12\">个人中心</div>");
+                $('.one1').html("<div class=\"one12\" onclick='one12()'>个人中心</div>");
                 var txt=$(".message").html();
-                console.log(txt);
+
                 if(txt==""){
                     $('.message').focus();//自动获取焦点
                     return;
@@ -165,14 +400,52 @@
                         width: 'auto',
                         arrow:true,
                         height: 'auto',
-                        content:"输入长度不能超过200的亲亲"
+                        content:"输入长度不能超过200个字符的亲亲"
                     });
                     return;
-                }
-                $.post('/release',{'txt':txt},function (data) {
+                }else if(txt.length<3){
+                    $('.message').focus();//自动获取焦点
+                    $.pt({
+                        target: $(".message"),
+                        position: 'r',
+                        align: 't',
+                        width: 'auto',
+                        arrow:true,
+                        height: 'auto',
+                        content:"输入长度不能短于3个字符的亲亲"
+                    });
                     return;
-                    $(".msgCon").prepend("<div class='msgBox'><dl><dt><img src='"+img+"' width='50' height='50'/></dt><dd>"+name+"</dd></dl><div class='msgTxt'>"+txt+"</div></div>");
-                });
+                }else{
+                    $.post('/release',{'txt':txt},function (data) {
+                        if(data==0){
+                            $('.message').focus();//自动获取焦点
+                            $.pt({
+                                target: $(".message"),
+                                position: 'r',
+                                align: 't',
+                                width: 'auto',
+                                arrow:true,
+                                height: 'auto',
+                                content:"服务器炸了，等帅气的正正修吧"
+                            });
+                        }else{
+
+                            eval("var data="+data);
+                            var name=data.username;
+                            var txt=data.text;
+                            var time=data.time;
+                            var websocket_data="<div class='msgBox'><dl><dt><img src='"+img+"' width='50' onerror=\"this.src='images/tx.jpg'\" height='50'/></dt><dd>"+name     +
+                                '<span style="font-size: 90%;color:#EEDFCC;float:right;">' +time+
+                                '<span>'
+                                +"</dd></dl><div class='msgTxt'>"+txt+"</div></div>"
+                            websocket.send(websocket_data);
+                            $('.message').text('');
+                            console.log('发送成功');
+                        }
+
+                    });
+                }
+
 
             }else{
                 $.pt({
@@ -194,18 +467,7 @@
 </script>
 
 <script>
-    var ws = new WebSocket("ws://123.207.245.120:9200");
-    ws.onopen = function(event){
-        console.log("客户端已连接上!");
-        ws.send("hello server,this is client!");
-    };
-    ws.onmessage= function(event){
-        console.log("服务器传过来的数据是："+event.data);
-    };
 
-    ws.onclose = function(event){
-        console.log("连接已关闭");
-    };
 </script>
 </body>
 </html>

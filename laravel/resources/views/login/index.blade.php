@@ -147,7 +147,7 @@
                 //调用后台登录验证的方法
                 var name=$("#login-username").val();
                 var password=$("#login-password").val();
-                console.log(name,password);
+                // console.log(name,password);
 
 
                 $.post('/login/login',{'name':name,'password':password},function (data) {
