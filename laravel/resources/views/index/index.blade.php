@@ -299,6 +299,47 @@
         }else{
             $.post('/up_user',{'username':username,'password':password},function (data) {
 
+                if(data==0){
+                    spop({
+                        template: '<h4 class="spop-title">系统错误</h4>即将于3秒后关闭',
+                        position: 'top-center',
+                        style: 'error',
+                        autoclose: 3000,
+                        onOpen : function(){
+                            var second = 2;
+                            var showPop = setInterval(function(){
+                                if(second == 0){
+                                    clearInterval(showPop);
+                                }
+                                $('.spop-body').html('<h4 class="spop-title">失败</h4>即将于'+second+'秒后关闭');
+                                second--;
+                            },1000);
+                        },
+                        onClose : function(){
+                            return false;
+                        }
+                    });
+                }else{
+                    spop({
+                        template: '<h4 class="spop-title">OK</h4>即将于3秒后关闭',
+                        position: 'top-center',
+                        style: 'success',
+                        autoclose: 3000,
+                        onOpen : function(){
+                            var second = 2;
+                            var showPop = setInterval(function(){
+                                if(second == 0){
+                                    clearInterval(showPop);
+                                }
+                                $('.spop-body').html('<h4 class="spop-title">OK</h4>即将于'+second+'秒后关闭');
+                                second--;
+                            },1000);
+                        },
+                        onClose : function(){
+                            $('.two').hide(1000)
+                        }
+                    });
+                }
             })
 
 
