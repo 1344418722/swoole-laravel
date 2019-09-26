@@ -22,6 +22,11 @@ Route::any('/session_user_name',function (){
         return $sess_user_id;
     }
 });
+//用户退出登录
+Route::any('session_del',function (){
+    session(['user_id'=>'']);
+    return redirect("/");
+});
 //用户发送信息
 Route::post('/release','Index\IndexController@release');
 //个人中心

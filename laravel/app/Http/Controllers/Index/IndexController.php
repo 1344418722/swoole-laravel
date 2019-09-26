@@ -52,8 +52,14 @@ class IndexController extends Controller{
     }
     function data(Request $request){
         $db=Index::data();
+
         $db_js=json_encode($db);
-        return $db_js;
+        $arr_db=json_decode($db_js,true);
+        foreach ($arr_db as $k=>$v){
+            $arr_db[$k]['time']=date('Y-m-d H:i:s',(int)$v['time']);
+        }
+        $js_arr=json_encode($arr_db);
+        return $js_arr;
 
     }
 

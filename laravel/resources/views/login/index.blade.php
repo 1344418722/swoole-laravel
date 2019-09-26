@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/spop.min.css" />
 
     <script src="js/jquery.min.js"></script>
+    <script src="js/snow.js"></script>
     <script src="js/jquery.pure.tooltips.js"></script>
     <script src="js/spop.min.js"></script>
     <script>
@@ -84,6 +85,27 @@
             $("#register-repassword").val("");
             $("#register-code").val("");
             $("#tab-2").prop("checked",true);
+            spop({
+                template: '<h4 class="spop-title">注册码:正正真帅</h4>即将于5秒后关闭',
+                position: 'top-center',
+                style: 'success',
+                autoclose: 5000,
+                onOpen : function(){
+                    var second = 4;
+                    var showPop = setInterval(function(){
+                        if(second == 0){
+                            clearInterval(showPop);
+
+                        }
+                        $('.spop-body').html('<h4 class="spop-title">注册码:正正真帅</h4>即将于'+second+'秒后关闭');
+                        second--;
+                    },1000);
+                },
+                onClose : function(){
+                }
+            });
+
+
         }
 
         function goto_login(username,password){
@@ -188,6 +210,24 @@
                 return false;
             }
         }
+        $('#register-code').on('Focus',function () {
+            $.pt({
+                target: $("#forget-code"),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                height: 'auto',
+                content:"注册码:正正真帅"
+            });
+        });
+            $.pt({
+                target: $("#forget-code"),
+                position: 'r',
+                align: 't',
+                width: 'auto',
+                height: 'auto',
+                content:"注册码:正正真帅"
+            });
 
         //注册
         function register(){
@@ -341,7 +381,7 @@
                         align: 't',
                         width: 'auto',
                         height: 'auto',
-                        content:"注册码不正确"
+                        content:"注册码:正正真帅"
                     });
 
                     flag = true;
@@ -351,6 +391,7 @@
 
 
         }
+
 
         //重置密码
         function forget(){
@@ -402,7 +443,6 @@
 
             //检查注册码是否正确
 
-
             $.get('/verify',function (data) {
                 if(code != data){
                     $.pt({
@@ -411,7 +451,7 @@
                         align: 't',
                         width: 'auto',
                         height: 'auto',
-                        content:"注册码不正确"
+                        content:"温馨提示:正正真帅"
                     });
                     flag = true;
                 }else{

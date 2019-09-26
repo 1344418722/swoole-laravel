@@ -25,7 +25,7 @@
 		$ao, $ai, w, h,
 		$pt = $('.pt'),
 		$target = $(opts.target),
-		top = $target.offset().top,
+		top = $target.offset(),
 		left = $target.offset().left,
 		width = $target.outerWidth(),
 		height = $target.outerHeight(),

@@ -39,6 +39,7 @@ class Index extends Model{
     }
     static function data(){
         try{
+
            $db= DB::table('leave')
                ->join('user','leave.user_id','=','user.id')
                ->orderBy('leave.id', 'desc')

@@ -86,6 +86,7 @@
             border-right:1px solid #1d2e40;
             cursor:pointer;
         }
+
         .two{
             width: 300px;
             height: 250px;
@@ -147,9 +148,30 @@
             border: 1px solid;
 
         }
+        .image_user{
+            z-index:1000;
+        }
+        .tc{
+            width: 7%;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            color: #b5c4d1;
+            border: 1px solid #1d2e40;
+            border-right: 1px solid #1d2e40;
+            cursor: pointer;
+            background: #213aba;
+            float: right;
+            top: 0px;
+            border-radius: 20px;
+            display: none;
+        }
     </style>
 </head>
 <body>
+<div class="tc">
+    退出登录
+</div>
 <div class="one">
     <div class="one1">
         <div class="one11" onclick="javascript:window.location.href='/login'">登录</div>
@@ -158,7 +180,7 @@
 <div class="two">
     <table>
         <caption align="top">
-            <img src="images/tx.jpg" onerror="this.src='images/tx.jpg'" />
+            <img src="http://b-ssl.duitang.com/uploads/item/201708/06/20170806165526_eAyKm.jpeg" onerror="this.src='http://img4.imgtn.bdimg.com/it/u=1586823997,3126448003&fm=26&gp=0.jpg'" />
         </caption>
         <tr>
             <th>&nbsp;&nbsp;账号:</th>
@@ -185,10 +207,11 @@
 
 </div>
 <div id="qq">
-    <p>有什么新鲜事想告诉大家?</p>
+    <p>有什么新鲜事想告诉大家?难道想告诉大家今天的自己也是美美哒</p>
     <div class="message" contentEditable='true'></div>
 
     <div class="But">
+
         <img src="images/bba_thumb.gif" class='bq'/>
         <span class='submit'>发表</span>
         {{----引入小表情们----}}
@@ -205,11 +228,11 @@
     <div class="msgBox" v-for="item in item">
         <dl>
             <dt>
-                <img src="${item.img}" width="50" onerror="this.src='images/tx.jpg'" height="50">
+                <img  src="http://b-ssl.duitang.com/uploads/item/201708/06/20170806165526_eAyKm.jpeg" onerror="this.src='images/tx.jpg'" width="50"  height="50">
             </dt>
             <dd>${item.username}
                 <span style="font-size: 90%;color:#EEDFCC;float:right;">
-                   ${item.time | formatDate}
+                   ${item.time}
                 </span>
             </dd>
         </dl>
@@ -238,26 +261,8 @@
                 that.item=data;
             })
         },filters: {
-            formatDate: function (value) {
 
-                value = Number(value);
-                console.log(value);
-                let date = new Date(value);
-                let y = date.getFullYear();
-                let MM = date.getMonth() + 1;
-                MM = MM < 10 ? ('0' + MM) : MM;
-                let d = date.getDate();
-                d = d < 10 ? ('0' + d) : d;
-                let h = date.getHours();
-                h = h < 10 ? ('0' + h) : h;
-                let m = date.getMinutes();
-                m = m < 10 ? ('0' + m) : m;
-                let s = date.getSeconds();
-                s = s < 10 ? ('0' + s) : s;
-                return y + '-' + MM + '-' + d + ' ' + h + ':' + m + ':' + s;
-            }
         }
-
 
     })
 
@@ -270,6 +275,7 @@
     $.get('session_user_name',{},function (data) {
         if(data>0){
             $('.one1').html("<div class=\"one12\" onclick='one12()'>个人中心</div>");
+            $('.tc').show();
         }
 
     });
@@ -508,7 +514,69 @@
 </script>
 
 <script>
-
+$('.tc').on('click',function () {
+    tk()
+});
+function tk() {
+    spop({
+        template  : '为什么要退出嘛,亲亲不要走',// string required. Without it nothing happens!
+        style     : 'info',// success, warning or error
+        autoclose : 3000,// miliseconds
+        position  : 'top-right',// top-left top-center bottom-left bottom-center bottom-right
+        icon      : true,// or false
+        group     : false,// string, add a id reference
+        onOpen    : function(){
+            var second = 2;
+            var showPop = setInterval(function(){
+                if(second == 0){
+                    clearInterval(showPop);
+                }
+                $('.spop-body').html('<h4 class="spop-title">再问你一遍</h4>'+second+'秒后关闭');
+                second--;
+            },1000);
+        },
+        onClose   : function(){
+            a=prompt("你走了还爱我嘛","爱");
+            if(a=='爱'){
+                ai_tk()
+            }else{
+                b=confirm("爱不爱我");
+                if(b){
+                    c=prompt('输入暗号:正正真帅');
+                    if(c=='正正真帅'){
+                        alert('么么哒');
+                    }
+                }else{
+                    alert('tui 渣男');
+                    window.location.href='/session_del'
+                }
+            }
+        }
+    });
+}
+function ai_tk() {
+    spop({
+        template  : '爱我就不走了🐏',// string required. Without it nothing happens!
+        style     : 'info',// success, warning or error
+        autoclose : 3000,// miliseconds
+        position  : 'top-right',// top-left top-center bottom-left bottom-center bottom-right
+        icon      : true,// or false
+        group     : false,// string, add a id reference
+        onOpen    : function(){
+            var second = 2;
+            var showPop = setInterval(function(){
+                if(second == 0){
+                    clearInterval(showPop);
+                }
+                $('.spop-body').html('<h4 class="spop-title">爱我就不走了🐏</h4>'+second+'秒后关闭');
+                second--;
+            },1000);
+        },
+        onClose   : function(){
+            alert('memeda')
+        }
+    });
+}
 </script>
 </body>
 </html>
